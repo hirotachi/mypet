@@ -6,7 +6,6 @@ import com.simplon.mypet.domain.user.UserDto;
 import com.simplon.mypet.domain.user.UserResponse;
 import com.simplon.mypet.exception.UserAlreadyExistsException;
 import com.simplon.mypet.exception.UserNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +17,6 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
