@@ -1,5 +1,6 @@
 package com.simplon.mypet.db.entity;
 
+import com.simplon.mypet.domain.animal.AnimalResponse;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -11,6 +12,9 @@ public class Animal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "name", nullable = false)
+    private String name;
 
     @Column(name = "type", nullable = false)
     private String type;
@@ -99,5 +103,17 @@ public class Animal {
 
     public void setAdoptions(List<Adoption> adoptions) {
         this.adoptions = adoptions;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public AnimalResponse toAnimalResponse() {
+        return AnimalResponse.fromAnimal(this);
     }
 }

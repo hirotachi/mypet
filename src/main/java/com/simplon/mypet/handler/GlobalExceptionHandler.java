@@ -1,7 +1,7 @@
 package com.simplon.mypet.handler;
 
-import com.simplon.mypet.exception.UserAlreadyExistsException;
-import com.simplon.mypet.exception.UserNotFoundException;
+import com.simplon.mypet.exception.AlreadyExistsException;
+import com.simplon.mypet.exception.NotFoundException;
 import com.simplon.mypet.exception.ValidationException;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,11 +17,11 @@ public class GlobalExceptionHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-    @ExceptionHandler({UserAlreadyExistsException.class, UserNotFoundException.class})
-    public ResponseEntity<ErrorResponse> handleUserExceptions(Exception e) {
+    @ExceptionHandler({AlreadyExistsException.class, NotFoundException.class})
+    public ResponseEntity<ErrorResponse> handleUserExceptions(Exception e, HttpStatus status) {
         LOGGER.error("Error: {}", e.getMessage());
-        ErrorResponse error = new ErrorResponse(e.getMessage(), HttpStatus.CONFLICT.value());
-        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+        ErrorResponse error = new ErrorResponse(e.getMessage(), status.value());
+        return new ResponseEntity<>(error, status);
     }
 
     @ExceptionHandler({IllegalArgumentException.class, ValidationException.class})
@@ -37,6 +37,7 @@ public class GlobalExceptionHandler {
         ErrorResponse error = new ErrorResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
 
     @Data
     @NoArgsConstructor
