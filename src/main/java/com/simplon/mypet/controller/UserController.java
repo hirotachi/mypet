@@ -5,11 +5,11 @@ import com.simplon.mypet.domain.user.UserResponse;
 import com.simplon.mypet.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 
 @RestController
@@ -32,10 +32,10 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserResponse>> getAllUsers() {
+    public ResponseEntity<Page<UserResponse>> getAllUsers(Pageable pageable) {
         LOGGER.info("Retrieving all users");
-        List<UserResponse> users = userService.getAllUsers();
-        LOGGER.info("Retrieved {} users", users.size());
+        Page<UserResponse> users = userService.getAllUsers(pageable);
+        LOGGER.info("Retrieved {} users", users.getTotalElements());
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 

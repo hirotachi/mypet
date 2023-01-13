@@ -6,11 +6,11 @@ import com.simplon.mypet.domain.user.UserDto;
 import com.simplon.mypet.domain.user.UserResponse;
 import com.simplon.mypet.exception.UserAlreadyExistsException;
 import com.simplon.mypet.exception.UserNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -33,9 +33,9 @@ public class UserService {
         return user.toUserResponse();
     }
 
-    public List<UserResponse> getAllUsers() {
-        List<User> users = userRepository.findAll();
-        return users.stream().map(User::toUserResponse).collect(Collectors.toList());
+    public Page<UserResponse> getAllUsers(Pageable pageable) {
+        Page<User> users = userRepository.findAll(pageable);
+        return users.map(User::toUserResponse);
     }
 
     public UserResponse getUserById(Long id) {
